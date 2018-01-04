@@ -1,0 +1,30 @@
+# app/config/security.yml
+security:
+
+    encoders:
+        App\Entity\User: bcrypt
+        
+    providers:
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+                # if you're using multiple entity managers
+                # manager_name: customer
+                
+    firewalls:
+        main:
+            anonymous: ~
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            pattern: ^/
+            http_basic: ~
+            provider: our_db_provider
+            form_login:
+                login_path: login
+                check_path: login
+                
+
+    access_control:
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    
+    
